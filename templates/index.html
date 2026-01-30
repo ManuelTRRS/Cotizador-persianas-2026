@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cotizador de Persianas</title>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
+
 <body>
     <h1>Cotizador de Persianas</h1>
     <ul id="pestanas">
@@ -97,59 +99,5 @@
         });
         {% endif %}
     </script>
-    <style>
-        .pestana {
-            display: none;
-        }
-        .pestana.activa {
-            display: block;
-        }
-        body{
-        font-family: Arial, sans-serif;
-        background-color: #e9f5ff;
-        padding: 20px;
-        margin: 0;
-        }
-
-        #contenidoPestanas {
-            max-width: 600px;
-            margin: 0 auto;
-
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-
-        #pestanas{
-            list-style: none;
-            padding: 0;
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            justify-content: center;
-        }
-
-        #pestanas button{
-            padding: 10px 20px;
-            border: none;
-            background-color: #e0e0e0;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        #pestanas button:hover{
-            background-color: #cfcfcf;
-            box-shadow: #cfcfcf;
-        }
-    </style>
 </body>
 </html>

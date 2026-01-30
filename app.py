@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, make_response, session
 import smtplib
 from email.mime.text import MIMEText
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = 'tu_clave_secreta_aqui_12345'
+app.secret_key = os.getenv('SECRET_KEY')
 
 @app.route('/', methods=['GET', 'POST'])
 def inicio():
@@ -44,8 +47,8 @@ Alto: {alto} metros
 Precio Final: ${precio}
         """
 
-        mi_correo = "manueltorres687@gmail.com"
-        mi_contraseña = "igrh ztkz dtvu simk"
+        mi_correo = os.getenv('EMAIL_USER')
+        mi_contraseña = os.getenv('EMAIL_PASSWORD')
         
         mensaje = MIMEText(contenido)
         mensaje['Subject'] = "Nueva Cotización de Cliente"
