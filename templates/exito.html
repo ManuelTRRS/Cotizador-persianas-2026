@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotización Enviada</title>
+</head>
+<body>
+    <h1>¡Cotización Enviada!</h1>
+    <p>Hola <strong>{{ nombre }}</strong>,</p>
+    <p>Tu cotización ha sido enviada exitosamente.</p>
+    
+    <h3>Detalles de tu cotización:</h3>
+    <p><strong>Ancho:</strong> {{ ancho }} metros</p>
+    <p><strong>Alto:</strong> {{ alto }} metros</p>
+    <p><strong>Precio:</strong> ${{ precio }}</p>
+    
+    <a href="/descargar_cotizacion" download>Descargar Cotización</a>
+    <br><br>
+    <a href="/">Realizar otra cotización</a>
+</body>
+</html>

@@ -3,17 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Persianas RP</title>
+    <title>Cotizador de Persianas</title>
 </head>
 <body>
-    <form action="/", method="post">
-        <label for ="Ancho">Ancho:</label>
-        <input id="Ancho" type="text" name="Ancho" placeholder="Ancho (metros)">
-        <label for ="Alto">Alto:</label>
-        <input id="Alto" type="text" name="Alto" placeholder="Alto (metros)">
-        <label for="E-mail">E-mail:</label>
-        <input id="E-mail" type="email" name="E-mail" placeholder="Tu E-mail">
-        <button type="submit">Enviar</button>
+    <h1>Cotizador de Persianas</h1>
+    <ul id="pestanas">
+        <li><button id="tab-cotizar" onclick="mostrarPestana('cotizar')">Cotizar</button></li>
+        <li> <button id="tab-enviar" onclick="mostrarPestana('enviar')">Enviar Cotizacion</button></li>
+    </ul>
+
+    <div id="contenidoPestanas">
+        <div id="cotizar" class="pestana activa">
+    <form action="/" method="post">
+        <label>Alto (metros)</label>
+        <input type="number" id="alto" name="Alto" step="0.01" value="{{ request.form.get('Alto', '') }}" required>
+        <label>Ancho (metros)</label>
+        <input type="number" id="ancho" name="Ancho" step="0.01" value="{{ request.form.get('Ancho', '') }}" required>
+        <button>Calcular</button>
     </form>
+    {% if resultado_cotizacion %}
+    <div id="resultado">
+        <h3>Precio: ${{ resultado_cotizacion|int}}</h3>
+        <p>Ancho: {{ request.form.get('Ancho') }}m | Alto: {{ request.form.get('Alto') }}m</p>
+        <button onclick="irPestanaEnvio()">Enviar Cotización</button>
+    </div>
+    {% endif %}
+        </div>
+
+        <div id="enviar" class="pestana">
+            <form action="/enviar" method="post">
+                <label>Nombre</label>
+                <input type="text" id="nombre" name="nombre" required>
+                
+                <label>Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" required>
+                
+                <label>Email</label>
+                <input type="email" id="email" name="E-mail" required>
+                
+                <label>Ancho (metros)</label>
+                <input type="text" id="ancho-envio" readonly>
+                <input type="hidden" id="ancho-envio-hidden" name="ancho_envio">
+                
+                <label>Alto (metros)</label>
+                <input type="text" id="alto-envio" readonly>
+                <input type="hidden" id="alto-envio-hidden" name="alto_envio">
+                
+                <label>Precio Final</label>
+                <input type="text" id="precio-envio" readonly>
+                <input type="hidden" id="precio-envio-hidden" name="precio_envio">
+                
+                <button type="submit">Enviar Cotización</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function mostrarPestana(id) {
+            const pestanas = document.querySelectorAll('.pestana');
+            pestanas.forEach(p => p.classList.remove('activa'));
+            document.getElementById(id).classList.add('activa');
+        }
+
+        function irPestanaEnvio() {
+            const ancho = document.getElementById('ancho').value;
+            const alto = document.getElementById('alto').value;
+            const precio = document.querySelector('#resultado h3').textContent.replace('Precio: $', '').trim();
+            
+            document.getElementById('ancho-envio').value = ancho;
+            document.getElementById('alto-envio').value = alto;
+            document.getElementById('precio-envio').value = precio;
+            
+            document.getElementById('ancho-envio-hidden').value = ancho;
+            document.getElementById('alto-envio-hidden').value = alto;
+            document.getElementById('precio-envio-hidden').value = precio;
+            
+            mostrarPestana('enviar');
+        }
+
+        {% if resultado_cotizacion %}
+        document.addEventListener('DOMContentLoaded', function() {
+            const ancho = "{{ request.form.get('Ancho') }}";
+            const alto = "{{ request.form.get('Alto') }}";
+            const precio = "{{ resultado_cotizacion|int }}";
+            
+            document.getElementById('ancho-envio').value = ancho;
+            document.getElementById('alto-envio').value = alto;
+            document.getElementById('precio-envio').value = precio;
+            
+            document.getElementById('ancho-envio-hidden').value = ancho;
+            document.getElementById('alto-envio-hidden').value = alto;
+            document.getElementById('precio-envio-hidden').value = precio;
+        });
+        {% endif %}
+    </script>
+    <style>
+        .pestana {
+            display: none;
+        }
+        .pestana.activa {
+            display: block;
+        }
+        body{
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+        margin: 0;
+        }
+
+        #contenidoPestanas {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        #pestanas{
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        #pestanas button{
+            padding: 10px 20px;
+            border: none;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #pestanas button:hover{
+            background-color: #cfcfcf;
+            box-shadow: #cfcfcf;
+        }
+    </style>
 </body>
 </html>
